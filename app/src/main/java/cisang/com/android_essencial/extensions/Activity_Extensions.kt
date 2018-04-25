@@ -1,14 +1,11 @@
 package cisang.com.android_essencial.extensions
 
-import android.app.Activity
 import android.support.annotation.IdRes
-import android.support.annotation.StringRes
 import android.support.v4.app.Fragment
 import android.support.v7.app.ActionBar
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.View
-import android.widget.Toast
 
 /**
  * Created by willi on 14/02/2018.

@@ -17,7 +17,6 @@
         <include layout="@layout/toolbar"/>
 
 
-
     </LinearLayout>
 
     <android.support.design.widget.NavigationView
