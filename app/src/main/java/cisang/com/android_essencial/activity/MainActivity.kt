@@ -1,16 +1,19 @@
 package cisang.com.android_essencial.activity
 
-import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.NavigationView
+import android.support.design.widget.Snackbar
+import android.support.v4.content.ContextCompat
 import android.support.v4.view.GravityCompat
 import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.widget.Toolbar
 import android.view.MenuItem
 import cisang.com.android_essencial.R
+import cisang.com.android_essencial.adapter.TabsAdapter
 import cisang.com.android_essencial.domain.TipoCarro
 import cisang.com.android_essencial.extensions.setupToolbar
+import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
 
@@ -21,6 +24,19 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         setContentView(R.layout.activity_main)
         setupToolbar(R.id.toolbar)
         setupNavDrawer()
+        setupViewPagerTabs()
+        fab.setOnClickListener {
+            val snack = Snackbar.make(it, "Clicou no fab", Snackbar.LENGTH_LONG)
+            snack.show()
+        }
+    }
+
+    private fun setupViewPagerTabs() {
+        viewPager.offscreenPageLimit = 2
+        viewPager.adapter = TabsAdapter(context, supportFragmentManager)
+        tabLayout.setupWithViewPager(viewPager)
+        val cor = ContextCompat.getColor(context, R.color.white)
+        tabLayout.setTabTextColors(cor, cor)
     }
 
     private fun setupNavDrawer() {
