@@ -5,6 +5,7 @@ import cisang.com.android_essencial.R
 import cisang.com.android_essencial.domain.Carro
 import cisang.com.android_essencial.extensions.loadUrl
 import cisang.com.android_essencial.extensions.setupToolbar
+import kotlinx.android.synthetic.main.activity_carro.*
 import kotlinx.android.synthetic.main.activity_carro_contents.*
 
 class CarroActivity : BaseActivity() {
@@ -22,6 +23,6 @@ class CarroActivity : BaseActivity() {
 
     private fun initViews() {
         tDesc.text = carro.desc
-        img.loadUrl(carro.urlFoto)
+        appBarImg.loadUrl(carro.urlFoto)
     }
 }
