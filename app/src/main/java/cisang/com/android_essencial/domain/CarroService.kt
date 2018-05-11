@@ -1,42 +1,34 @@
 package cisang.com.android_essencial.domain
 
-import cisang.com.android_essencial.R
 import cisang.com.android_essencial.extensions.fromJson
-import cisang.com.android_essencial.extensions.getText
-import cisang.com.android_essencial.extensions.getXml
-import java.net.URL
+import cisang.com.android_essencial.extensions.toJson
+import cisang.com.android_essencial.utils.HttpHelper
 
 /**
  * Created by WCisang on 25/04/2018.
  */
 object CarroService {
 
+    private val BASE_URL = "http://livrowebservices.com.br/rest/carros"
+
     fun getCarros(tipo: TipoCarro): List<Carro> {
-        val url = "http://livrowebservices.com.br/rest/carros/tipo/${tipo.name}"
-        val json = URL(url).readText()
+        val url = "$BASE_URL/tipo/${tipo.name}"
+        val json = HttpHelper.get(url)
         val carros = fromJson<List<Carro>>(json)
         return carros
     }
 
-    fun getArquivoRaw(tipo: TipoCarro) = when (tipo) {
-        TipoCarro.classicos -> R.raw.carros_classicos
-        TipoCarro.esportivos -> R.raw.carros_esportivos
-        else -> R.raw.carros_luxo
+    fun save(carro: Carro): Response {
+        val json = HttpHelper.post(BASE_URL, carro.toJson())
+        val response = fromJson<Response>(json)
+        return response
     }
 
-    fun parseXml(xmlString: String): List<Carro> {
-        val carros = mutableListOf<Carro>()
-        val xml = xmlString.getXml()
-        val nodeCarros = xml.getChildren("carro")
-        for (node in nodeCarros) {
-            val c = Carro()
-            c.nome = node.getText("nome")
-            c.desc = node.getText("desc")
-            c.urlFoto = node.getText("url_foto")
-            carros.add(c)
-        }
-        return carros
+    fun delete(carro: Carro) : Response {
+        val url = "$BASE_URL/${carro.id}"
+        val json = HttpHelper.delete(url)
+        val response = fromJson<Response>(json)
+        return response
     }
-
 
 }
