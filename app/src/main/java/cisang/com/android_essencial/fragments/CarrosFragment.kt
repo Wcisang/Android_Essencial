@@ -12,8 +12,11 @@ import cisang.com.android_essencial.adapter.CarroAdapter
 import cisang.com.android_essencial.domain.Carro
 import cisang.com.android_essencial.domain.CarroService
 import cisang.com.android_essencial.domain.TipoCarro
+import cisang.com.android_essencial.utils.AndroidUtils
 import kotlinx.android.synthetic.main.fragment_carros.*
+import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.uiThread
 
 class CarrosFragment : BaseFragment() {
 
@@ -43,10 +46,23 @@ class CarrosFragment : BaseFragment() {
     }
 
     private fun taskCarros() {
-        this.carros = CarroService.getCarros(context!!, tipo)
-        recyclerView.adapter = CarroAdapter(carros) {
-            activity?.startActivity<CarroActivity>("carro" to it)
+        doAsync {
+            if (AndroidUtils.isNetworkAvailable(activity!!.applicationContext))
+                carros = CarroService.getCarros(tipo)
+            else
+                carros = mutableListOf()
+
+            uiThread {
+                recyclerView.adapter = CarroAdapter(carros) {
+                    onClickCarro(it)
+                }
+            }
         }
+
+    }
+
+    private fun onClickCarro(carro: Carro) {
+        activity?.startActivity<CarroActivity>("carro" to carro)
     }
 
 
