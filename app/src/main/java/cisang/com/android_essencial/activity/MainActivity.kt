@@ -26,8 +26,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         setupNavDrawer()
         setupViewPagerTabs()
         fab.setOnClickListener {
-            val snack = Snackbar.make(it, "Clicou no fab", Snackbar.LENGTH_LONG)
-            snack.show()
+            startActivity<CarroFormActivity>()
         }
     }
 

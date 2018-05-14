@@ -1,34 +1,40 @@
 package cisang.com.android_essencial.domain
 
-import cisang.com.android_essencial.extensions.fromJson
-import cisang.com.android_essencial.extensions.toJson
-import cisang.com.android_essencial.utils.HttpHelper
+import cisang.com.android_essencial.domain.retrofit.CarrosREST
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
 /**
  * Created by WCisang on 25/04/2018.
  */
 object CarroService {
 
-    private val BASE_URL = "http://livrowebservices.com.br/rest/carros"
+    private val BASE_URL = "http://livrowebservices.com.br/rest/carros/"
+    private var service: CarrosREST
+    init {
+        val retrofit = Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
+        service = retrofit.create(CarrosREST::class.java)
+    }
 
     fun getCarros(tipo: TipoCarro): List<Carro> {
-        val url = "$BASE_URL/tipo/${tipo.name}"
-        val json = HttpHelper.get(url)
-        val carros = fromJson<List<Carro>>(json)
-        return carros
+        val call = service.getCarros(tipo.name)
+        val carros = call.execute().body()
+        return carros!!
     }
 
     fun save(carro: Carro): Response {
-        val json = HttpHelper.post(BASE_URL, carro.toJson())
-        val response = fromJson<Response>(json)
-        return response
+        val call = service.save(carro)
+        val response = call.execute().body()
+        return response!!
     }
 
     fun delete(carro: Carro) : Response {
-        val url = "$BASE_URL/${carro.id}"
-        val json = HttpHelper.delete(url)
-        val response = fromJson<Response>(json)
-        return response
+        val call = service.delete(carro.id)
+        val response = call.execute().body()
+        return response!!
     }
 
 }
