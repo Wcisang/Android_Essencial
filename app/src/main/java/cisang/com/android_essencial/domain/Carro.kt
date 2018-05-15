@@ -1,5 +1,7 @@
 package cisang.com.android_essencial.domain
 
+import android.arch.persistence.room.Entity
+import android.arch.persistence.room.PrimaryKey
 import android.os.Parcel
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
@@ -7,7 +9,9 @@ import com.google.gson.annotations.SerializedName
 /**
  * Created by WCisang on 25/04/2018.
  */
+@Entity(tableName = "carro")
 class Carro() : Parcelable{
+    @PrimaryKey
     var id:Long = 0
     var tipo = ""
     var nome = ""
