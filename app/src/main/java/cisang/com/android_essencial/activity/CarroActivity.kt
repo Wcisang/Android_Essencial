@@ -1,15 +1,21 @@
 package cisang.com.android_essencial.activity
 
+import android.content.res.ColorStateList
 import android.os.Bundle
+import android.support.v4.content.ContextCompat
 import android.view.Menu
 import android.view.MenuItem
 import cisang.com.android_essencial.R
 import cisang.com.android_essencial.domain.Carro
+import cisang.com.android_essencial.domain.FavoritosService
 import cisang.com.android_essencial.extensions.loadUrl
 import cisang.com.android_essencial.extensions.setupToolbar
 import kotlinx.android.synthetic.main.activity_carro.*
 import kotlinx.android.synthetic.main.activity_carro_contents.*
+import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.toast
+import org.jetbrains.anko.uiThread
 
 class CarroActivity : BaseActivity() {
 
@@ -22,6 +28,18 @@ class CarroActivity : BaseActivity() {
         setupToolbar(R.id.toolbar, carro.nome, true)
 
         initViews()
+        fab.setOnClickListener { onClickFavoritar(carro) }
+    }
+
+    private fun onClickFavoritar(carro: Carro) {
+        doAsync {
+            val favoritado = FavoritosService.favoritar(carro)
+            uiThread {
+                setFavoriteColor(favoritado)
+                toast(if (favoritado) R.string.msg_carro_favoritado
+                else R.string.msg_carro_desfavoritado)
+            }
+        }
     }
 
     private fun initViews() {
@@ -44,5 +62,12 @@ class CarroActivity : BaseActivity() {
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    fun setFavoriteColor(favorito: Boolean) {
+        val fundo = ContextCompat.getColor(this, if (favorito) R.color.favorito_on else R.color.favorito_off)
+        val cor = ContextCompat.getColor(this, if (favorito) R.color.yellow else R.color.favorito_on)
+        fab.backgroundTintList = ColorStateList(arrayOf(intArrayOf(0)), intArrayOf(fundo))
+        fab.setColorFilter(cor)
     }
 }

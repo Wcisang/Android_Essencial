@@ -5,8 +5,10 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
+import cisang.com.android_essencial.R.string.tipo
 import cisang.com.android_essencial.domain.TipoCarro
 import cisang.com.android_essencial.fragments.CarrosFragment
+import cisang.com.android_essencial.fragments.FavoritosFragment
 
 /**
  * Created by WCisang on 27/04/2018.
@@ -14,12 +16,13 @@ import cisang.com.android_essencial.fragments.CarrosFragment
 class TabsAdapter(private val context: Context, fm: FragmentManager) : FragmentPagerAdapter(fm){
 
 
-    override fun getCount(): Int = 3
+    override fun getCount(): Int = 4
 
     fun getTipoCarro(position: Int) = when(position) {
         0 -> TipoCarro.classicos
         1 -> TipoCarro.esportivos
-        else -> TipoCarro.luxo
+        2 -> TipoCarro.luxo
+        else -> TipoCarro.favoritos
     }
 
     override fun getPageTitle(position: Int): CharSequence? {
@@ -28,6 +31,8 @@ class TabsAdapter(private val context: Context, fm: FragmentManager) : FragmentP
     }
 
     override fun getItem(position: Int): Fragment {
+        if (position == 3)
+            return FavoritosFragment()
         val tipo = getTipoCarro(position)
         val f: Fragment = CarrosFragment()
         f.arguments = Bundle()

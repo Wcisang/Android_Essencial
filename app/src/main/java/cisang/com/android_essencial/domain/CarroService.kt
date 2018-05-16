@@ -1,6 +1,9 @@
 package cisang.com.android_essencial.domain
 
+import cisang.com.android_essencial.domain.dao.DatabaseManager
 import cisang.com.android_essencial.domain.retrofit.CarrosREST
+import cisang.com.android_essencial.extensions.fromJson
+import cisang.com.android_essencial.utils.HttpHelper
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -32,9 +35,14 @@ object CarroService {
     }
 
     fun delete(carro: Carro) : Response {
-        val call = service.delete(carro.id)
-        val response = call.execute().body()
-        return response!!
+        val url = "$BASE_URL/${carro.id}"
+        val json = HttpHelper.delete(url)
+        val response = fromJson<Response>(json)
+        if (response.isOk()){
+            val dao = DatabaseManager.getCarroDAO()
+            dao.delete(carro)
+        }
+        return response
     }
 
 }

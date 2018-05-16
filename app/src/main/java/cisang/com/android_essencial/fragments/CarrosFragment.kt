@@ -3,6 +3,7 @@ package cisang.com.android_essencial.fragments
 import android.os.Bundle
 import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,14 +19,16 @@ import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.uiThread
 
-class CarrosFragment : BaseFragment() {
+open class CarrosFragment : BaseFragment() {
 
     private var tipo : TipoCarro = TipoCarro.classicos
-    private var carros = listOf<Carro>()
+    protected var carros = listOf<Carro>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        tipo = arguments?.getSerializable("tipo") as TipoCarro
+        if (arguments != null) {
+            tipo = arguments!!.getSerializable("tipo") as TipoCarro
+        }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -45,7 +48,7 @@ class CarrosFragment : BaseFragment() {
         taskCarros()
     }
 
-    private fun taskCarros() {
+    open fun taskCarros() {
         doAsync {
             if (AndroidUtils.isNetworkAvailable(activity!!.applicationContext))
                 carros = CarroService.getCarros(tipo)
@@ -61,7 +64,7 @@ class CarrosFragment : BaseFragment() {
 
     }
 
-    private fun onClickCarro(carro: Carro) {
+    open fun onClickCarro(carro: Carro) {
         activity?.startActivity<CarroActivity>("carro" to carro)
     }
 

@@ -33,7 +33,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     }
 
     private fun setupViewPagerTabs() {
-        viewPager.offscreenPageLimit = 2
+        viewPager.offscreenPageLimit = 3
         viewPager.adapter = TabsAdapter(context, supportFragmentManager)
         val tabIdx = Prefs.tabIdx
         viewPager.currentItem = tabIdx
