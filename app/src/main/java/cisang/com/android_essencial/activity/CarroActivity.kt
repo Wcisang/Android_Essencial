@@ -1,6 +1,8 @@
 package cisang.com.android_essencial.activity
 
+import android.content.Intent
 import android.content.res.ColorStateList
+import android.net.Uri
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.view.Menu
@@ -45,6 +47,13 @@ class CarroActivity : BaseActivity() {
     private fun initViews() {
         tDesc.text = carro.desc
         appBarImg.loadUrl(carro.urlFoto)
+        img.loadUrl(carro.urlFoto)
+        imgPlayVideo.setOnClickListener {
+            val url = carro.urlVideo
+            val intent = Intent(Intent.ACTION_VIEW)
+            intent.setDataAndType(Uri.parse(url), "video/*")
+            startActivity(intent)
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
