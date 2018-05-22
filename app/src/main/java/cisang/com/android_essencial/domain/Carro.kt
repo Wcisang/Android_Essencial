@@ -10,9 +10,9 @@ import com.google.gson.annotations.SerializedName
  * Created by WCisang on 25/04/2018.
  */
 @Entity(tableName = "carro")
-class Carro() : Parcelable{
+class Carro() : Parcelable {
     @PrimaryKey(autoGenerate = true)
-    var id:Long = 0
+    var id: Long = 0
     var tipo = ""
     var nome = ""
     var desc = ""
@@ -20,7 +20,9 @@ class Carro() : Parcelable{
     var urlInfo = ""
     var urlVideo = ""
     var latitude = ""
+        get() = if (field.trim().isEmpty()) "0.0" else field
     var longitude = ""
+        get() = if (field.trim().isEmpty()) "0.0" else field
 
     constructor(parcel: Parcel) : this() {
         id = parcel.readLong()

@@ -126,10 +126,10 @@
                 android:textSize="16sp"
                 android:textStyle="bold"/>
 
-            <TextView
+            <FrameLayout
+                android:id="@+id/mapaFragment"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="MAPA AQUI"
+                android:layout_height="320dp"
                 android:layout_margin="16dp"/>
 
 

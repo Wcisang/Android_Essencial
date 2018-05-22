@@ -12,6 +12,7 @@ import cisang.com.android_essencial.domain.Carro
 import cisang.com.android_essencial.domain.FavoritosService
 import cisang.com.android_essencial.extensions.loadUrl
 import cisang.com.android_essencial.extensions.setupToolbar
+import cisang.com.android_essencial.fragments.MapaFragment
 import kotlinx.android.synthetic.main.activity_carro.*
 import kotlinx.android.synthetic.main.activity_carro_contents.*
 import org.jetbrains.anko.doAsync
@@ -54,6 +55,13 @@ class CarroActivity : BaseActivity() {
             intent.setDataAndType(Uri.parse(url), "video/*")
             startActivity(intent)
         }
+
+        val mapaFragment = MapaFragment()
+        mapaFragment.arguments = intent.extras
+        supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.mapaFragment, mapaFragment)
+                .commit()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
