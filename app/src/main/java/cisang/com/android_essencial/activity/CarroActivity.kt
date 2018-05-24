@@ -10,11 +10,13 @@ import android.view.MenuItem
 import cisang.com.android_essencial.R
 import cisang.com.android_essencial.domain.Carro
 import cisang.com.android_essencial.domain.FavoritosService
+import cisang.com.android_essencial.domain.event.FavoritoEvent
 import cisang.com.android_essencial.extensions.loadUrl
 import cisang.com.android_essencial.extensions.setupToolbar
 import cisang.com.android_essencial.fragments.MapaFragment
 import kotlinx.android.synthetic.main.activity_carro.*
 import kotlinx.android.synthetic.main.activity_carro_contents.*
+import org.greenrobot.eventbus.EventBus
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
@@ -41,6 +43,7 @@ class CarroActivity : BaseActivity() {
                 setFavoriteColor(favoritado)
                 toast(if (favoritado) R.string.msg_carro_favoritado
                 else R.string.msg_carro_desfavoritado)
+                EventBus.getDefault().post(FavoritoEvent(carro))
             }
         }
     }

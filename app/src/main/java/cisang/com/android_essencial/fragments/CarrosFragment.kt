@@ -13,8 +13,11 @@ import cisang.com.android_essencial.adapter.CarroAdapter
 import cisang.com.android_essencial.domain.Carro
 import cisang.com.android_essencial.domain.CarroService
 import cisang.com.android_essencial.domain.TipoCarro
+import cisang.com.android_essencial.domain.event.SaveCarroEvent
 import cisang.com.android_essencial.utils.AndroidUtils
 import kotlinx.android.synthetic.main.fragment_carros.*
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.uiThread
@@ -29,6 +32,7 @@ open class CarrosFragment : BaseFragment() {
         if (arguments != null) {
             tipo = arguments!!.getSerializable("tipo") as TipoCarro
         }
+        EventBus.getDefault().register(this)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -45,6 +49,10 @@ open class CarrosFragment : BaseFragment() {
 
     override fun onResume() {
         super.onResume()
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
         taskCarros()
     }
 
@@ -68,5 +76,13 @@ open class CarrosFragment : BaseFragment() {
         activity?.startActivity<CarroActivity>("carro" to carro)
     }
 
+    @Subscribe
+    fun onRefresh(event: SaveCarroEvent){
+        taskCarros()
+    }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        EventBus.getDefault().unregister(this)
+    }
 }

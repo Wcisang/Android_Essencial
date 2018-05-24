@@ -10,11 +10,13 @@ import cisang.com.android_essencial.R
 import cisang.com.android_essencial.domain.Carro
 import cisang.com.android_essencial.domain.CarroService
 import cisang.com.android_essencial.domain.TipoCarro
+import cisang.com.android_essencial.domain.event.SaveCarroEvent
 import cisang.com.android_essencial.extensions.loadUrl
 import cisang.com.android_essencial.extensions.setupToolbar
 import cisang.com.android_essencial.utils.CameraHelper
 import kotlinx.android.synthetic.main.activity_carro.*
 import kotlinx.android.synthetic.main.activity_carro_form_contents.*
+import org.greenrobot.eventbus.EventBus
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.toast
@@ -99,6 +101,7 @@ class CarroFormActivity : AppCompatActivity() {
             uiThread {
                 toast(response.msg)
                 finish()
+                EventBus.getDefault().post(SaveCarroEvent(carro!!))
             }
         }
     }
@@ -135,6 +138,7 @@ class CarroFormActivity : AppCompatActivity() {
             uiThread {
                 toast(response.msg)
                 finish()
+                EventBus.getDefault().post(SaveCarroEvent(c))
             }
         }
     }

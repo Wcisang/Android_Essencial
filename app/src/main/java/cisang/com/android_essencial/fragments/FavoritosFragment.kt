@@ -5,6 +5,7 @@ import cisang.com.android_essencial.adapter.CarroAdapter
 import cisang.com.android_essencial.domain.Carro
 import cisang.com.android_essencial.domain.FavoritosService
 import kotlinx.android.synthetic.main.fragment_carros.*
+import org.greenrobot.eventbus.Subscribe
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 import org.jetbrains.anko.startActivity
@@ -26,6 +27,11 @@ class FavoritosFragment : CarrosFragment() {
 
     override fun onClickCarro(carro: Carro) {
         activity?.startActivity<CarroActivity>("carro" to carro)
+    }
+
+    @Subscribe
+    fun onRefresh(){
+        taskCarros()
     }
 
 }
